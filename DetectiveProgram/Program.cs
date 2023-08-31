@@ -34,8 +34,6 @@ namespace DetectiveProgram
     class Detective
     {
         private List<Criminal> _criminals;
-        private int _heightCriminal;
-        private int _weightCriminal;
 
         public Detective()
         {
@@ -56,35 +54,35 @@ namespace DetectiveProgram
             while (isCorrect == false)
             {
                 Console.WriteLine($"Введите Рост");
-                bool checkHeight = int.TryParse(Console.ReadLine(), out int result);
-                _heightCriminal = result;
+                bool checkHeight = int.TryParse(Console.ReadLine(), out int _heightCriminal);
+
+                if (checkHeight == false)
+                {
+                    Console.WriteLine("Введены не корректные данные роста");
+                    continue;
+                }
+
                 Console.WriteLine("Вес");
-                bool checkWeight = int.TryParse(Console.ReadLine(), out int result1);
-                _weightCriminal = result1;
+                bool checkWeight = int.TryParse(Console.ReadLine(), out int _weightCriminal);
+
+                if (checkWeight == false)
+                {
+                    Console.WriteLine("Введены не корректные данные веса");
+                    continue;
+                }
+
                 Console.WriteLine("Национальность преступника");
                 bool checkNational = Enum.TryParse(Console.ReadLine(), out Nationality nationality);
 
-                if (checkHeight == checkWeight == checkNational)
+                if (checkNational == false)
                 {
-                    var filteredCriminals = _criminals.Where(criminal => criminal.IsDetention == false && (criminal.Height == _heightCriminal && criminal.Weight == _weightCriminal && criminal.Nationality == nationality));
-                    ShowCriminal(filteredCriminals);
-                    isCorrect = true;
+                    Console.WriteLine("Введены не корректные данные национальности");
+                    continue;
                 }
-                else
-                {
-                    if (checkHeight == false)
-                    {
-                        Console.WriteLine("Введены не корректные данные роста");
-                    }
-                    else if (checkWeight == false)
-                    {
-                        Console.WriteLine("Введены не корректные данные веса");
-                    }
-                    else if (checkNational == false)
-                    {
-                        Console.WriteLine("Введены не корректные данные национальности");
-                    }
-                }
+
+                var filteredCriminals = _criminals.Where(criminal => criminal.IsDetention == false && (criminal.Height == _heightCriminal && criminal.Weight == _weightCriminal && criminal.Nationality == nationality));
+                ShowCriminal(filteredCriminals);
+                isCorrect = true;
             }
         }
 
